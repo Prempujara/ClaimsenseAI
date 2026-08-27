@@ -1,67 +1,68 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%
+    String currentURI = request.getRequestURI();
+%>
 
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
 
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:35px;">
+    <div class="sidebar-header">
+        <div class="logo-icon">
+            <i class="fa-solid fa-brain"></i>
+        </div>
+        <div class="sidebar-brand">
+            <h3>ClaimSense AI</h3>
+            <p>Expense Management</p>
+        </div>
+    </div>
 
-<div style="width:45px;height:45px;background:#2563EB;border-radius:12px;
-display:flex;justify-content:center;align-items:center;color:white;font-weight:bold;">
+    <ul class="sidebar-nav">
 
-CS
-
-</div>
-
-<div>
-
-<h3 style="margin:0;">ClaimSense AI</h3>
-
-<p style="margin:0;font-size:13px;color:#d1d5db;">
-
-Expense Management
-
-</p>
-
-</div>
-
-</div>
-
-    <ul>
-
-        <li>
+        <li class="<%= currentURI.contains("/employee/dashboard.jsp") ? "active" : "" %>">
             <a href="${pageContext.request.contextPath}/employee/dashboard.jsp">
                 <i class="fa-solid fa-house"></i>
-                Dashboard
+                <span>Employee Dashboard</span>
             </a>
         </li>
 
-        <li>
+        <li class="<%= currentURI.contains("/employee/submitExpense.jsp") ? "active" : "" %>">
             <a href="${pageContext.request.contextPath}/employee/submitExpense.jsp">
-                <i class="fa-solid fa-receipt"></i>
-                Submit Expense
+                <i class="fa-solid fa-plus-circle"></i>
+                <span>Submit Expense</span>
             </a>
         </li>
 
-        <li>
+        <li class="<%= currentURI.contains("/employee/myExpense.jsp") ? "active" : "" %>">
             <a href="${pageContext.request.contextPath}/employee/myExpense.jsp">
-                <i class="fa-solid fa-wallet"></i>
-                My Expenses
+                <i class="fa-solid fa-receipt"></i>
+                <span>My Expenses</span>
             </a>
         </li>
 
-        <li>
+        <li class="<%= currentURI.contains("/employee/expenseDetails.jsp") ? "active" : "" %>">
             <a href="${pageContext.request.contextPath}/employee/expenseDetails.jsp">
-                <i class="fa-solid fa-file"></i>
-                Expense Details
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <span>Expense Details</span>
             </a>
         </li>
 
-        <li>
+        <div style="margin: 20px 0 10px 14px; font-size: 11px; text-transform: uppercase; color: var(--sidebar-text); letter-spacing: 1px; font-weight: 600;">
+            Manager Access
+        </div>
+
+        <li class="<%= currentURI.contains("/manager/dashboard.jsp") ? "active" : "" %>">
             <a href="${pageContext.request.contextPath}/manager/dashboard.jsp">
-                <i class="fa-solid fa-user-check"></i>
-                Manager Dashboard
+                <i class="fa-solid fa-user-shield"></i>
+                <span>Manager Dashboard</span>
             </a>
         </li>
 
     </ul>
+
+    <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08);">
+        <a href="${pageContext.request.contextPath}/auth/login.jsp" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; color: var(--sidebar-text); text-decoration: none; border-radius: 8px; font-size: 14px;">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Sign Out</span>
+        </a>
+    </div>
 
 </aside>

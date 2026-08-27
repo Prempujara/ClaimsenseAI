@@ -1,131 +1,134 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Submit Expense - ClaimSense AI</title>
 
-<meta charset="UTF-8">
-
-<title>Submit Expense</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-
-<link rel="stylesheet" href="../assets/css/style.css">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/responsive.css">
 </head>
 
 <body>
 
 <div class="dashboard">
 
-<jsp:include page="../components/sidebar.jsp"/>
+    <jsp:include page="../components/sidebar.jsp"/>
 
-<main class="main">
+    <main class="main">
 
-<nav class="topbar">
+        <jsp:include page="../components/navbar.jsp"/>
 
-<h3>Submit Expense</h3>
+        <div class="content">
 
-</nav>
+            <div style="margin-bottom: 28px;">
+                <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">Submit New Expense</h2>
+                <p style="color: var(--text-muted); font-size: 14px; margin: 0;">
+                    Fill out the form below or upload a receipt to trigger automatic OCR processing.
+                </p>
+            </div>
 
-<div class="content">
+            <div class="table-box" style="max-width: 900px;">
+                
+                <div id="formError" class="alert alert-danger" style="display: none; padding: 12px; border-radius: 8px; background: #FEE2E2; color: #B91C1C; font-size: 13px; margin-bottom: 20px;"></div>
 
-<div class="table-box">
+                <form action="${pageContext.request.contextPath}/SubmitExpenseServlet" method="POST" enctype="multipart/form-data" onsubmit="return validateExpenseForm(event)">
 
-<h4>New Expense</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        
+                        <div class="form-group">
+                            <label for="expenseTitle">Expense Title <span style="color: red;">*</span></label>
+                            <input class="input" id="expenseTitle" name="title" placeholder="e.g. Business Lunch with Client" required>
+                        </div>
 
-<div class="row">
+                        <div class="form-group">
+                            <label for="expenseCategory">Category <span style="color: red;">*</span></label>
+                            <select class="form-select" id="expenseCategory" name="category" required>
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Food">Food</option>
+                                <option value="Office Supplies">Office Supplies</option>
+                                <option value="Accommodation">Accommodation</option>
+                                <option value="Utilities">Utilities</option>
+                            </select>
+                            <div style="margin-top: 6px;">
+                                <span class="ai-badge">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Category Suggestion: Ready upon receipt upload
+                                </span>
+                            </div>
+                        </div>
 
-<div class="col-md-6">
+                    </div>
 
-<label>Expense Title</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        
+                        <div class="form-group">
+                            <label for="expenseAmount">Amount (₹) <span style="color: red;">*</span></label>
+                            <input type="number" step="0.01" min="0.01" class="input" id="expenseAmount" name="amount" placeholder="0.00" required>
+                        </div>
 
-<input class="form-control" placeholder="Business Lunch">
+                        <div class="form-group">
+                            <label for="expenseDate">Expense Date <span style="color: red;">*</span></label>
+                            <input type="date" class="input" id="expenseDate" name="expenseDate" required>
+                        </div>
 
-</div>
+                    </div>
 
-<div class="col-md-6">
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <label for="expenseDescription">Description</label>
+                        <textarea class="form-control" id="expenseDescription" name="description" rows="4" placeholder="Provide additional details regarding the expense..."></textarea>
+                    </div>
 
-<label>Category</label>
+                    <div class="form-group" style="margin-bottom: 28px;">
+                        <label>Upload Receipt <span style="color: red;">*</span></label>
 
-<select class="form-control">
+                        <div class="dropzone" id="receiptDropzone">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <h5 style="margin-bottom: 6px; font-weight: 600; font-size: 15px;">Click to upload or drag & drop receipt</h5>
+                            <p style="font-size: 13px; color: var(--text-muted); margin: 0;">
+                                Supported Formats: <strong>JPG, JPEG, PNG, PDF</strong> (Max size: 5MB)
+                            </p>
+                            <div id="fileNameDisplay" style="margin-top: 12px; font-size: 13px; color: var(--primary);"></div>
+                            <div id="fileErrorDisplay" style="margin-top: 8px; font-size: 13px; color: #B91C1C; display: none;"></div>
+                        </div>
 
-<option>Travel</option>
+                        <input type="file" id="receiptFile" name="receipt" accept=".jpg,.jpeg,.png,.pdf" style="display: none;" required>
+                    </div>
 
-<option>Food</option>
+                    <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                        <a href="${pageContext.request.contextPath}/employee/dashboard.jsp" class="btn-outline-custom">Cancel</a>
+                        <button type="submit" class="btn-primary-custom">
+                            <i class="fa-solid fa-paper-plane"></i> Submit Claim
+                        </button>
+                    </div>
 
-<option>Office Supplies</option>
+                </form>
 
-<option>Accommodation</option>
+            </div>
 
-</select>
+        </div>
 
-</div>
+        <jsp:include page="../components/footer.jsp"/>
 
-<div class="col-md-6 mt-3">
-
-<label>Amount</label>
-
-<input class="form-control" placeholder="₹ 0">
-
-</div>
-
-<div class="col-md-6 mt-3">
-
-<label>Date</label>
-
-<input type="date" class="form-control">
-
-</div>
-
-<div class="col-12 mt-3">
-
-<label>Description</label>
-
-<textarea class="form-control" rows="5"></textarea>
-
-</div>
-
-<div class="col-12 mt-3">
-
-<label>Upload Receipt</label>
-
-<input type="file" class="form-control">
-<p style="font-size:13px;color:#6B7280;margin-top:8px;">
-
-Supported Files:
-JPG, PNG, PDF
-
-</p>
-
-</div>
-
-<div class="col-12 mt-4">
-
-<button class="btn btn-primary">
-
-Submit Expense
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-<footer style="text-align:center;padding:20px;color:#6B7280;font-size:14px;">
-
-© 2026 ClaimSense AI | Expense Management System
-
-</footer>
-
-</main>
+    </main>
 
 </div>
+
+<script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
+<script>
+    // Set default max date to today
+    document.addEventListener("DOMContentLoaded", function() {
+        const dateInput = document.getElementById("expenseDate");
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('max', today);
+            dateInput.value = today;
+        }
+    });
+</script>
 
 </body>
 

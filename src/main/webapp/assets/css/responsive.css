@@ -1,17 +1,52 @@
-@media (max-width: 992px){
-
-    .login-left{
-        display:none;
+@media (max-width: 992px) {
+    .left-side {
+        display: none;
     }
 
-    .login-right{
-        width:100%;
-        padding:30px;
+    .login-right {
+        width: 100%;
+        padding: 24px;
     }
 
-    .login-card{
-        width:100%;
-        max-width:450px;
+    .sidebar {
+        transform: translateX(-100%);
     }
 
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        padding: 0 16px;
+    }
+
+    .content {
+        padding: 16px;
+    }
+
+    .login-card {
+        padding: 28px 20px;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
 }
