@@ -15,6 +15,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="${ctx}/assets/css/style.css">
     <link rel="stylesheet" href="${ctx}/assets/css/responsive.css">
+    <script src="${ctx}/assets/js/theme.js"></script>
 </head>
 
 <body>
@@ -128,7 +129,7 @@
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
                             <!-- OCR extraction -->
-                            <div style="background: white; padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
+                            <div style="background: var(--card-bg); padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
                                 <span style="font-size: 12px; color: var(--text-muted);">OCR Extracted Amount</span>
                                 <div style="font-size: 14px; font-weight: 600; margin-top: 4px;">
                                     <c:choose>
@@ -140,7 +141,7 @@
                                 </div>
                             </div>
 
-                            <div style="background: white; padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
+                            <div style="background: var(--card-bg); padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
                                 <span style="font-size: 12px; color: var(--text-muted);">OCR Merchant</span>
                                 <div style="font-size: 14px; font-weight: 600; margin-top: 4px;">
                                     <c:choose>
@@ -153,7 +154,7 @@
                             </div>
 
                             <!-- ML category prediction -->
-                            <div style="background: white; padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
+                            <div style="background: var(--card-bg); padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
                                 <span style="font-size: 12px; color: var(--text-muted);">AI Category Suggestion</span>
                                 <div style="font-size: 14px; font-weight: 600; margin-top: 4px;">
                                     <c:choose>
@@ -167,7 +168,7 @@
                             </div>
 
                             <!-- Anomaly detection -->
-                            <div style="background: white; padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
+                            <div style="background: var(--card-bg); padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
                                 <span style="font-size: 12px; color: var(--text-muted);">Anomaly Detection</span>
                                 <div style="font-size: 14px; font-weight: 600; margin-top: 4px;">
                                     <c:choose>
@@ -203,7 +204,7 @@
                         <c:choose>
                             <c:when test="${not empty receipt}">
                                 <c:set var="ext" value="${receipt.extension}" />
-                                <div style="border: 1px dashed var(--border-color); border-radius: 12px; padding: 16px; text-align: center; background: #F8FAFC;">
+                                <div style="border: 1px dashed var(--border-color); border-radius: 12px; padding: 16px; text-align: center; background: var(--table-header-bg);">
                                     <c:choose>
                                         <c:when test="${ext eq 'png' or ext eq 'jpg' or ext eq 'jpeg'}">
                                             <img src="${ctx}/receipt?expenseId=${expense.expenseId}" alt="Receipt" style="max-width: 100%; max-height: 320px; border-radius: 8px; border: 1px solid var(--border-color);">
@@ -225,7 +226,7 @@
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <div style="border: 1px dashed var(--border-color); border-radius: 12px; padding: 20px; text-align: center; background: #F8FAFC; color: var(--text-muted); font-size: 13px;">
+                                <div style="border: 1px dashed var(--border-color); border-radius: 12px; padding: 20px; text-align: center; background: var(--table-header-bg); color: var(--text-muted); font-size: 13px;">
                                     No receipt attached.
                                 </div>
                             </c:otherwise>
@@ -285,10 +286,10 @@
                             <span style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 6px;">Manager Remarks</span>
                             <c:choose>
                                 <c:when test="${expense.status eq 'REJECTED' and not empty expense.rejectionReason}">
-                                    <div style="padding: 10px; background: #FEE2E2; border-radius: 8px; font-size: 13px; color: #B91C1C;">${fn:escapeXml(expense.rejectionReason)}</div>
+                                    <div style="padding: 10px; background: var(--danger-bg); border-radius: 8px; font-size: 13px; color: var(--danger-text);">${fn:escapeXml(expense.rejectionReason)}</div>
                                 </c:when>
                                 <c:otherwise>
-                                    <div style="padding: 10px; background: #F8FAFC; border-radius: 8px; font-size: 13px; color: var(--text-muted); font-style: italic;">
+                                    <div style="padding: 10px; background: var(--table-header-bg); border-radius: 8px; font-size: 13px; color: var(--text-muted); font-style: italic;">
                                         No remarks added yet.
                                     </div>
                                 </c:otherwise>

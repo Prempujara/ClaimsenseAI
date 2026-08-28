@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="${ctx}/assets/css/style.css">
     <link rel="stylesheet" href="${ctx}/assets/css/responsive.css">
 
+    <script src="${ctx}/assets/js/theme.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -101,21 +102,21 @@
                     </span>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px;">
-                    <div style="background: white; padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
+                    <div style="background: var(--card-bg); padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
                         <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;">OCR Receipt Scanner</span>
                         <div style="font-weight: 600; font-size: 14px; margin-top: 4px; color: var(--text-main);">
                             <i class="fa-solid fa-file-lines"></i> Tesseract OCR
                         </div>
                     </div>
 
-                    <div style="background: white; padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
+                    <div style="background: var(--card-bg); padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
                         <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;">Category Auto-Suggest</span>
                         <div style="font-weight: 600; font-size: 14px; margin-top: 4px; color: var(--text-main);">
                             <i class="fa-solid fa-brain"></i> TF-IDF + Logistic Regression
                         </div>
                     </div>
 
-                    <div style="background: white; padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
+                    <div style="background: var(--card-bg); padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
                         <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;">Anomaly Detection</span>
                         <div style="font-weight: 600; font-size: 14px; margin-top: 4px; color: var(--text-main);">
                             <i class="fa-solid fa-shield-halved"></i> Isolation Forest
@@ -197,9 +198,13 @@
 <c:if test="${chartHasData}">
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const ctx = document.getElementById("expenseChart");
-        if (ctx) {
-            new Chart(ctx, {
+        const canvas = document.getElementById("expenseChart");
+        if (canvas) {
+            function getLegendColor() {
+                return window.ClaimSenseTheme && window.ClaimSenseTheme.getTheme() === 'dark' ? '#94A3B8' : '#64748B';
+            }
+
+            const chartInstance = new Chart(canvas, {
                 type: 'doughnut',
                 data: {
                     labels: ${chartLabels},
@@ -218,9 +223,21 @@
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            labels: { boxWidth: 12, padding: 15, font: { family: 'Inter', size: 12 } }
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15,
+                                font: { family: 'Inter', size: 12 },
+                                color: getLegendColor()
+                            }
                         }
                     }
+                }
+            });
+
+            window.addEventListener('claimsense-theme-changed', function(e) {
+                if (chartInstance && chartInstance.options.plugins.legend.labels) {
+                    chartInstance.options.plugins.legend.labels.color = getLegendColor();
+                    chartInstance.update();
                 }
             });
         }

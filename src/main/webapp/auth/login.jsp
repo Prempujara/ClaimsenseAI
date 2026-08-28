@@ -11,6 +11,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/responsive.css">
+    <script src="${pageContext.request.contextPath}/assets/js/theme.js"></script>
 </head>
 
 <body>
@@ -45,6 +46,16 @@
     </div>
 
     <div class="login-right">
+        <div style="position: absolute; top: 20px; right: 24px; z-index: 10;">
+            <button type="button" class="theme-toggle-btn" onclick="if(window.ClaimSenseTheme) window.ClaimSenseTheme.toggleTheme();" aria-label="Switch to dark mode" title="Switch to dark mode">
+                <span class="toggle-track">
+                    <span class="toggle-thumb">
+                        <i class="fa-solid fa-sun icon-sun"></i>
+                        <i class="fa-solid fa-moon icon-moon"></i>
+                    </span>
+                </span>
+            </button>
+        </div>
         <div class="login-card">
             <h2>Welcome Back</h2>
             <p>Log in to access your ClaimSense portal</p>

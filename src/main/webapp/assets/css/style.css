@@ -12,6 +12,10 @@
     --text-main: #1E293B;
     --text-muted: #64748B;
     --border-color: #E2E8F0;
+    --topbar-bg: #FFFFFF;
+    --input-bg: #FFFFFF;
+    --table-header-bg: #F8FAFC;
+    --table-row-hover: #F8FAFC;
     --success-bg: #DCFCE7;
     --success-text: #15803D;
     --pending-bg: #FEF3C7;
@@ -20,9 +24,48 @@
     --danger-text: #B91C1C;
     --ai-purple: #7C3AED;
     --ai-purple-light: #F3E8FF;
+    --ai-card-gradient: linear-gradient(135deg, #F3E8FF 0%, #FFFFFF 100%);
+    --dropzone-bg: #FAF5FF;
+    --dropzone-hover-bg: #F3E8FF;
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    --login-right-bg: #F8FAFC;
+    --footer-bg: #FFFFFF;
+}
+
+[data-theme="dark"] {
+    --primary: #3B82F6;
+    --primary-hover: #60A5FA;
+    --primary-light: rgba(59, 130, 246, 0.15);
+    --dark-sidebar: #0B132B;
+    --dark-sidebar-hover: #1C2541;
+    --sidebar-text: #94A3B8;
+    --bg-main: #0B0F19;
+    --card-bg: #151C2C;
+    --text-main: #F1F5F9;
+    --text-muted: #94A3B8;
+    --border-color: #243048;
+    --topbar-bg: #111827;
+    --input-bg: #1B2438;
+    --table-header-bg: #182236;
+    --table-row-hover: #1C273E;
+    --success-bg: rgba(22, 101, 52, 0.35);
+    --success-text: #4ADE80;
+    --pending-bg: rgba(180, 83, 9, 0.35);
+    --pending-text: #FBBF24;
+    --danger-bg: rgba(185, 28, 28, 0.35);
+    --danger-text: #F87171;
+    --ai-purple: #A78BFA;
+    --ai-purple-light: rgba(124, 58, 237, 0.2);
+    --ai-card-gradient: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, #151C2C 100%);
+    --dropzone-bg: rgba(124, 58, 237, 0.1);
+    --dropzone-hover-bg: rgba(124, 58, 237, 0.2);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    --login-right-bg: #0B0F19;
+    --footer-bg: #111827;
 }
 
 * {
@@ -95,13 +138,14 @@ body {
     align-items: center;
     justify-content: center;
     padding: 40px;
-    background: #F8FAFC;
+    background: var(--login-right-bg);
+    position: relative;
 }
 
 .login-card {
     width: 100%;
     max-width: 440px;
-    background: white;
+    background: var(--card-bg);
     padding: 45px;
     border-radius: 20px;
     box-shadow: var(--shadow-lg);
@@ -142,7 +186,7 @@ body {
     padding: 12px 16px;
     outline: none;
     font-size: 14px;
-    background: #FFFFFF;
+    background: var(--input-bg);
     transition: all 0.2s ease;
     color: var(--text-main);
 }
@@ -288,7 +332,7 @@ textarea.form-control {
 
 .topbar {
     height: 70px;
-    background: #FFFFFF;
+    background: var(--topbar-bg);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -450,7 +494,7 @@ textarea.form-control {
 }
 
 .custom-table th {
-    background: #F8FAFC;
+    background: var(--table-header-bg);
     color: var(--text-muted);
     font-size: 12px;
     font-weight: 600;
@@ -476,7 +520,7 @@ textarea.form-control {
 }
 
 .custom-table tr:hover td {
-    background: #F8FAFC;
+    background: var(--table-row-hover);
 }
 
 /* ================= STATUS BADGES ================= */
@@ -522,7 +566,7 @@ textarea.form-control {
 }
 
 .ai-card {
-    background: linear-gradient(135deg, #F3E8FF 0%, #FFFFFF 100%);
+    background: var(--ai-card-gradient);
     border: 1px solid rgba(124, 58, 237, 0.2);
     border-radius: 16px;
     padding: 24px;
@@ -551,14 +595,14 @@ textarea.form-control {
     border-radius: 12px;
     padding: 30px;
     text-align: center;
-    background: #FAF5FF;
+    background: var(--dropzone-bg);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .dropzone:hover, .dropzone.dragover {
     border-color: var(--ai-purple);
-    background: #F3E8FF;
+    background: var(--dropzone-hover-bg);
 }
 
 .dropzone i {
@@ -637,5 +681,76 @@ textarea.form-control {
     font-size: 13px;
     color: var(--text-muted);
     border-top: 1px solid var(--border-color);
-    background: white;
+    background: var(--footer-bg);
+}
+
+/* ================= THEME TOGGLE BUTTON ================= */
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    outline: none;
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.theme-toggle-btn * {
+    pointer-events: none;
+}
+
+.toggle-track {
+    width: 48px;
+    height: 26px;
+    background: var(--border-color);
+    border-radius: 14px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .toggle-track {
+    background: #1E293B;
+    border-color: #334155;
+}
+
+.toggle-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--card-bg);
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+}
+
+[data-theme="dark"] .toggle-thumb {
+    transform: translateX(22px);
+    background: #0F172A;
+}
+
+.toggle-thumb .icon-sun {
+    color: #F59E0B;
+    font-size: 11px;
+}
+
+.toggle-thumb .icon-moon {
+    color: #818CF8;
+    font-size: 11px;
 }

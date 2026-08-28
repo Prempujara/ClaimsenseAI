@@ -14,6 +14,16 @@
     </div>
 
     <div class="topbar-right">
+        <!-- Theme Toggle Button -->
+        <button type="button" class="theme-toggle-btn" onclick="if(window.ClaimSenseTheme) window.ClaimSenseTheme.toggleTheme();" aria-label="Switch to dark mode" title="Switch to dark mode">
+            <span class="toggle-track">
+                <span class="toggle-thumb">
+                    <i class="fa-solid fa-sun icon-sun"></i>
+                    <i class="fa-solid fa-moon icon-moon"></i>
+                </span>
+            </span>
+        </button>
+
         <div class="user-badge">
             <div class="user-avatar">
                 <c:out value="${user.initials}" default="?" />
