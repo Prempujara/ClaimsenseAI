@@ -30,31 +30,31 @@
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
                 <div>
-                    <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">My Expense Claims</h2>
+                    <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.4px;">My Expense Claims</h2>
                     <p style="color: var(--text-muted); font-size: 14px; margin: 0;">
-                        View and track all submitted claims and approval statuses.
+                        Track, filter, and review all your submitted expense records.
                     </p>
                 </div>
-                <a href="${ctx}/SubmitExpenseServlet" class="btn-primary-custom">
+                <a href="${ctx}/SubmitExpenseServlet" class="btn-primary-custom" style="padding: 10px 20px; font-size: 14px;">
                     <i class="fa-solid fa-plus"></i> Submit New Expense
                 </a>
             </div>
 
             <c:if test="${not empty error}">
-                <div class="alert alert-danger" style="padding: 12px; border-radius: 8px; background: #FEE2E2; color: #B91C1C; font-size: 13px; margin-bottom: 20px;">${fn:escapeXml(error)}</div>
+                <div class="alert alert-danger" style="padding: 12px 16px; border-radius: 10px; background: var(--danger-bg); color: var(--danger-text); border: 1px solid var(--danger-border); font-size: 13px; margin-bottom: 24px;"><i class="fa-solid fa-circle-exclamation"></i> ${fn:escapeXml(error)}</div>
             </c:if>
 
             <div class="table-box">
                 <div class="box-header" style="flex-wrap: wrap; gap: 16px;">
-                    <div style="display: flex; gap: 8px;" id="filterChips">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="filterChips">
                         <button class="btn-primary-custom filter-chip" data-filter="ALL" style="padding: 6px 14px; font-size: 13px;">All (${stats.totalCount})</button>
                         <button class="btn-outline-custom filter-chip" data-filter="PENDING" style="padding: 6px 14px; font-size: 13px;">Pending (${stats.pendingCount})</button>
                         <button class="btn-outline-custom filter-chip" data-filter="APPROVED" style="padding: 6px 14px; font-size: 13px;">Approved (${stats.approvedCount})</button>
                         <button class="btn-outline-custom filter-chip" data-filter="REJECTED" style="padding: 6px 14px; font-size: 13px;">Rejected (${stats.rejectedCount})</button>
                     </div>
 
-                    <div style="position: relative; width: 240px;">
-                        <input type="text" id="claimSearch" class="input" placeholder="Search claims..." style="height: 38px; padding-left: 36px; font-size: 13px; margin: 0;">
+                    <div style="position: relative; width: 260px;">
+                        <input type="text" id="claimSearch" class="input" placeholder="Search title or ID..." style="height: 38px; padding-left: 36px; font-size: 13px; margin: 0;">
                         <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 12px; color: var(--text-muted); font-size: 13px;"></i>
                     </div>
                 </div>
@@ -75,8 +75,8 @@
                         <tbody id="claimsBody">
                             <c:forEach var="e" items="${expenses}">
                                 <tr class="claim-row" data-status="${e.status}" data-text="${fn:toLowerCase(fn:escapeXml(e.title))} ${fn:toLowerCase(fn:escapeXml(e.categoryName))} ${e.claimCode}">
-                                    <td><strong>${e.claimCode}</strong></td>
-                                    <td>${fn:escapeXml(e.title)}</td>
+                                    <td><strong style="color: var(--text-main); font-weight: 700;">${e.claimCode}</strong></td>
+                                    <td><span style="font-weight: 600;">${fn:escapeXml(e.title)}</span></td>
                                     <td>${fn:escapeXml(e.categoryName)}</td>
                                     <td><strong>₹${e.amountDisplay}</strong></td>
                                     <td>${e.expenseDateDisplay}</td>
@@ -86,16 +86,25 @@
                                         </jsp:include>
                                     </td>
                                     <td>
-                                        <a href="${ctx}/expense-details?id=${e.expenseId}" class="btn-outline-custom" style="padding: 4px 10px; font-size: 12px;">View Details</a>
+                                        <a href="${ctx}/expense-details?id=${e.expenseId}" class="btn-outline-custom" style="padding: 4px 12px; font-size: 12px;">View Details</a>
                                     </td>
                                 </tr>
                             </c:forEach>
                             <c:if test="${empty expenses}">
-                                <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">You haven’t submitted any expense claims yet.</td></tr>
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 36px;">
+                                        <i class="fa-solid fa-folder-open" style="font-size: 32px; color: var(--border-color); margin-bottom: 10px; display: block;"></i>
+                                        <span style="font-weight: 600;">You haven’t submitted any expense claims yet</span>
+                                        <p style="font-size: 12px; margin-top: 4px;">Click "Submit New Expense" to record your first claim.</p>
+                                    </td>
+                                </tr>
                             </c:if>
                         </tbody>
                     </table>
-                    <div id="noMatch" style="display: none; text-align: center; color: var(--text-muted); padding: 24px;">No claims match your filter.</div>
+                    <div id="noMatch" style="display: none; text-align: center; color: var(--text-muted); padding: 32px;">
+                        <i class="fa-solid fa-magnifying-glass-minus" style="font-size: 24px; color: var(--border-color); margin-bottom: 8px; display: block;"></i>
+                        No claims match your search or status filter.
+                    </div>
                 </div>
 
             </div>
@@ -110,7 +119,6 @@
 
 <script src="${ctx}/assets/js/script.js"></script>
 <script>
-    // Client-side filter + search over the already-rendered claim rows.
     (function () {
         const rows = Array.from(document.querySelectorAll('.claim-row'));
         const chips = Array.from(document.querySelectorAll('.filter-chip'));

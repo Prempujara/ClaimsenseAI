@@ -33,28 +33,28 @@
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
                 <div>
-                    <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">Welcome, ${fn:escapeXml(fn:split(user.name, ' ')[0])} 👋</h2>
+                    <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.4px;">Good day, ${fn:escapeXml(fn:split(user.name, ' ')[0])} 👋</h2>
                     <p style="color: var(--text-muted); font-size: 14px; margin: 0;">
-                        Track your submissions and AI expense metrics below.
+                        Track your submitted expenses, AI OCR predictions, and manager approvals.
                     </p>
                 </div>
-                <a href="${ctx}/SubmitExpenseServlet" class="btn-primary-custom">
-                    <i class="fa-solid fa-plus"></i> Submit Expense
+                <a href="${ctx}/SubmitExpenseServlet" class="btn-primary-custom" style="padding: 10px 20px; font-size: 14px;">
+                    <i class="fa-solid fa-plus"></i> Submit New Expense
                 </a>
             </div>
 
             <c:if test="${not empty error}">
-                <div class="alert alert-danger" style="padding: 12px; border-radius: 8px; background: #FEE2E2; color: #B91C1C; font-size: 13px; margin-bottom: 20px;">${fn:escapeXml(error)}</div>
+                <div class="alert alert-danger" style="padding: 12px 16px; border-radius: 10px; background: var(--danger-bg); color: var(--danger-text); border: 1px solid var(--danger-border); font-size: 13px; margin-bottom: 24px;"><i class="fa-solid fa-circle-exclamation"></i> ${fn:escapeXml(error)}</div>
             </c:if>
 
-            <!-- Stats Grid -->
+            <!-- KPI Cards Grid -->
             <div class="cards-grid">
                 <div class="card-stat">
                     <div class="stat-icon total">
                         <i class="fa-solid fa-wallet"></i>
                     </div>
                     <div class="stat-info">
-                        <span>Total Expenses</span>
+                        <span>Total Claim Value</span>
                         <h2>₹${stats.totalAmountDisplay}</h2>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                         <i class="fa-solid fa-hourglass-half"></i>
                     </div>
                     <div class="stat-info">
-                        <span>Pending</span>
+                        <span>Pending Approval</span>
                         <h2>${stats.pendingCount}</h2>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                         <i class="fa-solid fa-circle-check"></i>
                     </div>
                     <div class="stat-info">
-                        <span>Approved</span>
+                        <span>Approved Claims</span>
                         <h2>${stats.approvedCount}</h2>
                     </div>
                 </div>
@@ -84,54 +84,54 @@
                         <i class="fa-solid fa-circle-xmark"></i>
                     </div>
                     <div class="stat-info">
-                        <span>Rejected</span>
+                        <span>Rejected Claims</span>
                         <h2>${stats.rejectedCount}</h2>
                     </div>
                 </div>
             </div>
 
-            <!-- AI Insights Card -->
+            <!-- AI Engine Insights Card -->
             <div class="ai-card">
                 <div class="ai-card-header">
                     <div class="ai-card-title">
                         <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 20px;"></i>
-                        <h4 style="margin: 0; font-size: 16px;">AI Expense Insights & Engine</h4>
+                        <h4 style="margin: 0; font-size: 16px; font-weight: 700;">AI Expense Processing Engine</h4>
                     </div>
                     <span class="ai-badge">
-                        <i class="fa-solid fa-circle-dot"></i> OCR + ML Engine
+                        <i class="fa-solid fa-circle-dot"></i> Tesseract OCR + Isolation Forest
                     </span>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px;">
-                    <div style="background: var(--card-bg); padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
-                        <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;">OCR Receipt Scanner</span>
-                        <div style="font-weight: 600; font-size: 14px; margin-top: 4px; color: var(--text-main);">
-                            <i class="fa-solid fa-file-lines"></i> Tesseract OCR
+                    <div style="background: var(--card-bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <span style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">OCR Scanner</span>
+                        <div style="font-weight: 700; font-size: 14px; margin-top: 6px; color: var(--text-main);">
+                            <i class="fa-solid fa-file-lines" style="color: var(--primary);"></i> Tesseract OCR Engine
                         </div>
                     </div>
 
-                    <div style="background: var(--card-bg); padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
-                        <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;">Category Auto-Suggest</span>
-                        <div style="font-weight: 600; font-size: 14px; margin-top: 4px; color: var(--text-main);">
-                            <i class="fa-solid fa-brain"></i> TF-IDF + Logistic Regression
+                    <div style="background: var(--card-bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <span style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Category Prediction</span>
+                        <div style="font-weight: 700; font-size: 14px; margin-top: 6px; color: var(--text-main);">
+                            <i class="fa-solid fa-brain" style="color: var(--ai-purple);"></i> TF-IDF + Logistic Regression
                         </div>
                     </div>
 
-                    <div style="background: var(--card-bg); padding: 14px; border-radius: 10px; border: 1px solid rgba(124,58,237,0.15);">
-                        <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;">Anomaly Detection</span>
-                        <div style="font-weight: 600; font-size: 14px; margin-top: 4px; color: var(--text-main);">
-                            <i class="fa-solid fa-shield-halved"></i> Isolation Forest
+                    <div style="background: var(--card-bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <span style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Anomaly Detection</span>
+                        <div style="font-weight: 700; font-size: 14px; margin-top: 6px; color: var(--text-main);">
+                            <i class="fa-solid fa-shield-halved" style="color: #059669;"></i> Isolation Forest Model
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Main Dashboard Grid -->
+            <!-- Main Dashboard Content Grid -->
             <div class="dashboard-grid">
 
                 <div class="table-box">
                     <div class="box-header">
-                        <h4>Recent Expenses</h4>
-                        <a href="${ctx}/employee/expenses" style="font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 600;">View All</a>
+                        <h4 style="font-size: 16px; font-weight: 700;">Recent Submissions</h4>
+                        <a href="${ctx}/employee/expenses" style="font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 600;">View All <i class="fa-solid fa-arrow-right" style="font-size: 11px;"></i></a>
                     </div>
                     <div class="table-responsive">
                         <table class="custom-table">
@@ -161,7 +161,13 @@
                                     </tr>
                                 </c:forEach>
                                 <c:if test="${empty recent}">
-                                    <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 24px;">No expenses submitted yet. Click “Submit Expense” to add your first claim.</td></tr>
+                                    <tr>
+                                        <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 36px;">
+                                            <i class="fa-solid fa-receipt" style="font-size: 32px; color: var(--border-color); margin-bottom: 10px; display: block;"></i>
+                                            <span style="font-weight: 600;">No expenses submitted yet</span>
+                                            <p style="font-size: 12px; margin-top: 4px;">Click “Submit New Expense” above to log your first claim.</p>
+                                        </td>
+                                    </tr>
                                 </c:if>
                             </tbody>
                         </table>
@@ -170,7 +176,7 @@
 
                 <div class="table-box">
                     <div class="box-header">
-                        <h4>Expense Breakdown</h4>
+                        <h4 style="font-size: 16px; font-weight: 700;">Category Breakdown</h4>
                     </div>
                     <div style="position: relative; height: 220px; display: flex; justify-content: center; align-items: center;">
                         <c:choose>
@@ -178,7 +184,7 @@
                                 <canvas id="expenseChart"></canvas>
                             </c:when>
                             <c:otherwise>
-                                <span style="color: var(--text-muted); font-size: 13px;">No approved-category data to chart yet.</span>
+                                <span style="color: var(--text-muted); font-size: 13px;">No approved claims available for chart display.</span>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -211,7 +217,7 @@
                     datasets: [{
                         data: ${chartData},
                         backgroundColor: [
-                            "#2563EB", "#10B981", "#F59E0B", "#7C3AED",
+                            "#4F46E5", "#10B981", "#F59E0B", "#7C3AED",
                             "#EF4444", "#06B6D4", "#64748B"
                         ],
                         borderWidth: 0

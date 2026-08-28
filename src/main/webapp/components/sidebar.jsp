@@ -10,11 +10,11 @@
 
     <div class="sidebar-header">
         <div class="logo-icon">
-            <i class="fa-solid fa-brain"></i>
+            <i class="fa-solid fa-microchip"></i>
         </div>
         <div class="sidebar-brand">
             <h3>ClaimSense AI</h3>
-            <p>Expense Management</p>
+            <p>Enterprise Expenses</p>
         </div>
     </div>
 
@@ -23,14 +23,14 @@
         <c:if test="${user.employee}">
             <li class="${fn:contains(uri, '/employee/dashboard') ? 'active' : ''}">
                 <a href="${ctx}/employee/dashboard">
-                    <i class="fa-solid fa-house"></i>
+                    <i class="fa-solid fa-chart-pie"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
 
             <li class="${fn:contains(uri, '/SubmitExpenseServlet') ? 'active' : ''}">
                 <a href="${ctx}/SubmitExpenseServlet">
-                    <i class="fa-solid fa-plus-circle"></i>
+                    <i class="fa-solid fa-file-circle-plus"></i>
                     <span>Submit Expense</span>
                 </a>
             </li>
@@ -44,13 +44,13 @@
         </c:if>
 
         <c:if test="${user.manager}">
-            <div style="margin: 4px 0 10px 14px; font-size: 11px; text-transform: uppercase; color: var(--sidebar-text); letter-spacing: 1px; font-weight: 600;">
-                Manager Access
+            <div style="margin: 16px 0 8px 14px; font-size: 10px; text-transform: uppercase; color: var(--sidebar-text); letter-spacing: 1.2px; font-weight: 700; opacity: 0.7;">
+                Management Portal
             </div>
 
             <li class="${fn:contains(uri, '/manager/dashboard') ? 'active' : ''}">
                 <a href="${ctx}/manager/dashboard">
-                    <i class="fa-solid fa-user-shield"></i>
+                    <i class="fa-solid fa-shield-check"></i>
                     <span>Review & Approvals</span>
                 </a>
             </li>
@@ -58,9 +58,9 @@
 
     </ul>
 
-    <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08);">
-        <a href="${ctx}/LogoutServlet" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; color: var(--sidebar-text); text-decoration: none; border-radius: 8px; font-size: 14px;">
-            <i class="fa-solid fa-right-from-bracket"></i>
+    <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08);">
+        <a href="${ctx}/LogoutServlet" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; color: var(--sidebar-text); text-decoration: none; border-radius: 8px; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
             <span>Sign Out</span>
         </a>
     </div>

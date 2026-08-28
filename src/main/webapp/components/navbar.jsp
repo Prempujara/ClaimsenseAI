@@ -5,11 +5,11 @@
 
 <nav class="topbar">
     <div class="topbar-left">
-        <button class="menu-toggle" id="menuToggle" type="button">
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle Navigation">
             <i class="fa-solid fa-bars"></i>
         </button>
         <div class="topbar-title">
-            <h3>ClaimSense AI Workspace</h3>
+            <h3>ClaimSense AI</h3>
         </div>
     </div>
 
@@ -30,8 +30,8 @@
             </div>
             <div style="display: flex; flex-direction: column;">
                 <span class="user-name"><c:out value="${user.name}" default="Guest" /></span>
-                <span style="font-size: 11px; color: var(--text-muted);">
-                    ${user.manager ? 'Manager' : 'Employee'}
+                <span style="font-size: 11px; color: var(--text-muted); font-weight: 500;">
+                    ${user.manager ? 'Manager Access' : 'Employee Portal'}
                 </span>
             </div>
         </div>
