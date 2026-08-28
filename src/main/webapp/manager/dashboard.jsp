@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,8 +11,8 @@
     <title>Manager Dashboard - ClaimSense AI</title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/responsive.css">
+    <link rel="stylesheet" href="${ctx}/assets/css/style.css">
+    <link rel="stylesheet" href="${ctx}/assets/css/responsive.css">
 </head>
 
 <body>
@@ -28,54 +31,41 @@
                 <div>
                     <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">Manager Review & Approvals</h2>
                     <p style="color: var(--text-muted); font-size: 14px; margin: 0;">
-                        Review submitted employee claims, examine AI risk scores, and manage approvals.
+                        Review submitted employee claims, examine AI anomaly signals, and manage approvals.
                     </p>
                 </div>
                 <div class="ai-badge" style="font-size: 13px; padding: 8px 14px;">
-                    <i class="fa-solid fa-shield-halved"></i> AI Anomaly Detector Active
+                    <i class="fa-solid fa-shield-halved"></i> AI Anomaly Detector (Isolation Forest)
                 </div>
             </div>
+
+            <c:if test="${not empty param.ok}">
+                <div class="alert" style="padding: 12px; border-radius: 8px; background: #DCFCE7; color: #166534; font-size: 13px; margin-bottom: 20px;"><i class="fa-solid fa-circle-check"></i> ${fn:escapeXml(param.ok)}</div>
+            </c:if>
+            <c:if test="${not empty param.err}">
+                <div class="alert alert-danger" style="padding: 12px; border-radius: 8px; background: #FEE2E2; color: #B91C1C; font-size: 13px; margin-bottom: 20px;"><i class="fa-solid fa-triangle-exclamation"></i> ${fn:escapeXml(param.err)}</div>
+            </c:if>
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger" style="padding: 12px; border-radius: 8px; background: #FEE2E2; color: #B91C1C; font-size: 13px; margin-bottom: 20px;">${fn:escapeXml(error)}</div>
+            </c:if>
 
             <!-- Stats Grid -->
             <div class="cards-grid">
                 <div class="card-stat">
-                    <div class="stat-icon total">
-                        <i class="fa-solid fa-file-invoice-dollar"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span>Total Claims</span>
-                        <h2>42</h2>
-                    </div>
+                    <div class="stat-icon total"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <div class="stat-info"><span>Total Claims</span><h2>${stats.totalCount}</h2></div>
                 </div>
-
                 <div class="card-stat">
-                    <div class="stat-icon pending">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span>Pending Review</span>
-                        <h2>12</h2>
-                    </div>
+                    <div class="stat-icon pending"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div class="stat-info"><span>Pending Review</span><h2>${stats.pendingCount}</h2></div>
                 </div>
-
                 <div class="card-stat">
-                    <div class="stat-icon approved">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span>Approved This Month</span>
-                        <h2>25</h2>
-                    </div>
+                    <div class="stat-icon approved"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="stat-info"><span>Approved</span><h2>${stats.approvedCount}</h2></div>
                 </div>
-
                 <div class="card-stat">
-                    <div class="stat-icon rejected">
-                        <i class="fa-solid fa-circle-xmark"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span>Rejected</span>
-                        <h2>05</h2>
-                    </div>
+                    <div class="stat-icon rejected"><i class="fa-solid fa-circle-xmark"></i></div>
+                    <div class="stat-info"><span>Rejected</span><h2>${stats.rejectedCount}</h2></div>
                 </div>
             </div>
 
@@ -83,10 +73,6 @@
             <div class="table-box">
                 <div class="box-header">
                     <h4>Submitted Claims Requiring Action</h4>
-                    <div style="display: flex; gap: 8px;">
-                        <button class="btn-outline-custom" style="padding: 6px 12px; font-size: 12px;">Filter Pending</button>
-                        <button class="btn-outline-custom" style="padding: 6px 12px; font-size: 12px;">Export Report</button>
-                    </div>
                 </div>
 
                 <div class="table-responsive">
@@ -103,98 +89,68 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        <div class="user-avatar" style="width: 28px; height: 28px; font-size: 11px;">PP</div>
-                                        <span style="font-weight: 600;">Prem Pujara</span>
-                                    </div>
-                                </td>
-                                <td><strong>#EX-1091</strong></td>
-                                <td>Starbucks Client Coffee</td>
-                                <td>Food</td>
-                                <td><strong>₹320.00</strong></td>
-                                <td>
-                                    <span class="badge-status approved" style="font-size: 11px;">
-                                        <i class="fa-solid fa-shield-check"></i> Low Risk (98% OCR match)
-                                    </span>
-                                </td>
-                                <td>
-                                    <div style="display: flex; gap: 6px;">
-                                        <a href="${pageContext.request.contextPath}/employee/expenseDetails.jsp" class="btn-outline-custom" style="padding: 4px 8px; font-size: 12px;" title="View Details">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <button class="btn-success-custom" type="button" onclick="approveClaim('#EX-1091')">
-                                            Approve <i class="fa-solid fa-check"></i>
-                                        </button>
-                                        <button class="btn-danger-custom" type="button" onclick="openRejectModal('#EX-1091', 'Prem Pujara')">
-                                            Reject <i class="fa-solid fa-xmark"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        <div class="user-avatar" style="width: 28px; height: 28px; font-size: 11px; background: #7C3AED;">RS</div>
-                                        <span style="font-weight: 600;">Rahul Sharma</span>
-                                    </div>
-                                </td>
-                                <td><strong>#EX-1095</strong></td>
-                                <td>Flight Ticket - Delhi Seminar</td>
-                                <td>Travel</td>
-                                <td><strong>₹7,500.00</strong></td>
-                                <td>
-                                    <span class="badge-status approved" style="font-size: 11px;">
-                                        <i class="fa-solid fa-shield-check"></i> Low Risk
-                                    </span>
-                                </td>
-                                <td>
-                                    <div style="display: flex; gap: 6px;">
-                                        <a href="${pageContext.request.contextPath}/employee/expenseDetails.jsp" class="btn-outline-custom" style="padding: 4px 8px; font-size: 12px;" title="View Details">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <button class="btn-success-custom" type="button" onclick="approveClaim('#EX-1095')">
-                                            Approve <i class="fa-solid fa-check"></i>
-                                        </button>
-                                        <button class="btn-danger-custom" type="button" onclick="openRejectModal('#EX-1095', 'Rahul Sharma')">
-                                            Reject <i class="fa-solid fa-xmark"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        <div class="user-avatar" style="width: 28px; height: 28px; font-size: 11px; background: #F59E0B;">AP</div>
-                                        <span style="font-weight: 600;">Ananya Patel</span>
-                                    </div>
-                                </td>
-                                <td><strong>#EX-1098</strong></td>
-                                <td>Electronics & Monitors</td>
-                                <td>Office Supplies</td>
-                                <td><strong>₹18,200.00</strong></td>
-                                <td>
-                                    <span class="badge-status pending" style="font-size: 11px; background: #FEF3C7; color: #B45309;">
-                                        <i class="fa-solid fa-triangle-exclamation"></i> Medium Risk (High Amount)
-                                    </span>
-                                </td>
-                                <td>
-                                    <div style="display: flex; gap: 6px;">
-                                        <a href="${pageContext.request.contextPath}/employee/expenseDetails.jsp" class="btn-outline-custom" style="padding: 4px 8px; font-size: 12px;" title="View Details">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <button class="btn-success-custom" type="button" onclick="approveClaim('#EX-1098')">
-                                            Approve <i class="fa-solid fa-check"></i>
-                                        </button>
-                                        <button class="btn-danger-custom" type="button" onclick="openRejectModal('#EX-1098', 'Ananya Patel')">
-                                            Reject <i class="fa-solid fa-xmark"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <c:forEach var="e" items="${pending}">
+                                <c:set var="a" value="${analysisMap[e.expenseId]}" />
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <div class="user-avatar" style="width: 28px; height: 28px; font-size: 11px;">${fn:toUpperCase(fn:substring(e.employeeName, 0, 1))}</div>
+                                            <span style="font-weight: 600;">${fn:escapeXml(e.employeeName)}</span>
+                                        </div>
+                                    </td>
+                                    <td><strong>${e.claimCode}</strong></td>
+                                    <td>${fn:escapeXml(e.title)}</td>
+                                    <td>${fn:escapeXml(e.categoryName)}</td>
+                                    <td><strong>₹${e.amountDisplay}</strong></td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${not empty a and a.anomaly}">
+                                                <span class="badge-status pending" style="font-size: 11px; background: #FEF3C7; color: #B45309;">
+                                                    <i class="fa-solid fa-triangle-exclamation"></i> Potential anomaly detected
+                                                </span>
+                                            </c:when>
+                                            <c:when test="${not empty a and fn:contains(a.anomalyStatus, 'INSUFFICIENT')}">
+                                                <span class="badge-status pending" style="font-size: 11px;">
+                                                    <i class="fa-solid fa-circle-info"></i> Insufficient data for anomaly analysis
+                                                </span>
+                                            </c:when>
+                                            <c:when test="${not empty a and a.anomalyStatus eq 'NORMAL'}">
+                                                <span class="badge-status approved" style="font-size: 11px;">
+                                                    <i class="fa-solid fa-shield-check"></i> Low risk
+                                                </span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="badge-status pending" style="font-size: 11px; background: #F1F5F9; color: #475569;">
+                                                    <i class="fa-solid fa-hourglass-half"></i> AI analysis pending
+                                                </span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <c:if test="${not empty a and a.hasPrediction}">
+                                            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+                                                <i class="fa-solid fa-brain"></i> Suggested: ${fn:escapeXml(a.predictedCategory)} (${a.confidencePercent})
+                                            </div>
+                                        </c:if>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 6px;">
+                                            <a href="${ctx}/expense-details?id=${e.expenseId}" class="btn-outline-custom" style="padding: 4px 8px; font-size: 12px;" title="View Details">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                            <form action="${ctx}/ApproveRejectServlet" method="POST" style="display: inline;" onsubmit="return confirm('Approve claim ${e.claimCode}?');">
+                                                <input type="hidden" name="action" value="APPROVE">
+                                                <input type="hidden" name="expenseId" value="${e.expenseId}">
+                                                <button class="btn-success-custom" type="submit">Approve <i class="fa-solid fa-check"></i></button>
+                                            </form>
+                                            <button class="btn-danger-custom" type="button" onclick="openRejectModal(${e.expenseId}, '${e.claimCode}', '${fn:escapeXml(e.employeeName)}')">
+                                                Reject <i class="fa-solid fa-xmark"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            <c:if test="${empty pending}">
+                                <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">No pending claims. All caught up! 🎉</td></tr>
+                            </c:if>
                         </tbody>
                     </table>
                 </div>
@@ -215,10 +171,10 @@
             <h4 style="margin: 0; font-weight: 700; color: #B91C1C;"><i class="fa-solid fa-circle-xmark"></i> Reject Expense Claim</h4>
             <button type="button" onclick="closeRejectModal()" style="background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-muted);">&times;</button>
         </div>
-        
-        <form action="${pageContext.request.contextPath}/ApproveRejectServlet" method="POST">
+
+        <form action="${ctx}/ApproveRejectServlet" method="POST">
             <input type="hidden" name="action" value="REJECT">
-            <input type="hidden" name="claimId" id="modalClaimId">
+            <input type="hidden" name="expenseId" id="modalExpenseId">
 
             <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">
                 You are rejecting claim <strong id="displayClaimId"></strong> submitted by <strong id="displayEmployee"></strong>. Please state the rejection remarks below:
@@ -237,22 +193,14 @@
     </div>
 </div>
 
-<script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
+<script src="${ctx}/assets/js/script.js"></script>
 <script>
-    function approveClaim(claimId) {
-        if (confirm("Are you sure you want to approve claim " + claimId + "?")) {
-            // Form action ready for ApproveRejectServlet
-            alert("Claim " + claimId + " has been approved! (Ready for Servlet connection)");
-        }
-    }
-
-    function openRejectModal(claimId, employee) {
-        document.getElementById('modalClaimId').value = claimId;
-        document.getElementById('displayClaimId').innerText = claimId;
+    function openRejectModal(expenseId, claimCode, employee) {
+        document.getElementById('modalExpenseId').value = expenseId;
+        document.getElementById('displayClaimId').innerText = claimCode;
         document.getElementById('displayEmployee').innerText = employee;
         document.getElementById('rejectModal').style.display = 'flex';
     }
-
     function closeRejectModal() {
         document.getElementById('rejectModal').style.display = 'none';
     }

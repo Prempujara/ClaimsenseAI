@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
+<c:set var="user" value="${sessionScope.user}" />
 
 <nav class="topbar">
     <div class="topbar-left">
@@ -13,11 +16,13 @@
     <div class="topbar-right">
         <div class="user-badge">
             <div class="user-avatar">
-                PP
+                <c:out value="${user.initials}" default="?" />
             </div>
             <div style="display: flex; flex-direction: column;">
-                <span class="user-name">Prem Pujara</span>
-                <span style="font-size: 11px; color: var(--text-muted);">Employee</span>
+                <span class="user-name"><c:out value="${user.name}" default="Guest" /></span>
+                <span style="font-size: 11px; color: var(--text-muted);">
+                    ${user.manager ? 'Manager' : 'Employee'}
+                </span>
             </div>
         </div>
     </div>

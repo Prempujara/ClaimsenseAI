@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,9 +36,9 @@
 
             <div class="table-box" style="max-width: 900px;">
                 
-                <div id="formError" class="alert alert-danger" style="display: none; padding: 12px; border-radius: 8px; background: #FEE2E2; color: #B91C1C; font-size: 13px; margin-bottom: 20px;"></div>
+                <div id="formError" class="alert alert-danger" style="${empty error ? 'display: none;' : ''} padding: 12px; border-radius: 8px; background: #FEE2E2; color: #B91C1C; font-size: 13px; margin-bottom: 20px;"><c:out value="${error}" /></div>
 
-                <form action="${pageContext.request.contextPath}/SubmitExpenseServlet" method="POST" enctype="multipart/form-data" onsubmit="return validateExpenseForm(event)">
+                <form action="${ctx}/SubmitExpenseServlet" method="POST" enctype="multipart/form-data" onsubmit="return validateExpenseForm(event)">
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                         
@@ -48,15 +51,13 @@
                             <label for="expenseCategory">Category <span style="color: red;">*</span></label>
                             <select class="form-select" id="expenseCategory" name="category" required>
                                 <option value="" disabled selected>Select Category</option>
-                                <option value="Travel">Travel</option>
-                                <option value="Food">Food</option>
-                                <option value="Office Supplies">Office Supplies</option>
-                                <option value="Accommodation">Accommodation</option>
-                                <option value="Utilities">Utilities</option>
+                                <c:forEach var="cat" items="${categories}">
+                                    <option value="${cat.categoryId}">${fn:escapeXml(cat.categoryName)}</option>
+                                </c:forEach>
                             </select>
                             <div style="margin-top: 6px;">
                                 <span class="ai-badge">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Category Suggestion: Ready upon receipt upload
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI category suggestion runs automatically after you submit
                                 </span>
                             </div>
                         </div>
@@ -99,7 +100,7 @@
                     </div>
 
                     <div style="display: flex; gap: 12px; justify-content: flex-end;">
-                        <a href="${pageContext.request.contextPath}/employee/dashboard.jsp" class="btn-outline-custom">Cancel</a>
+                        <a href="${ctx}/employee/dashboard" class="btn-outline-custom">Cancel</a>
                         <button type="submit" class="btn-primary-custom">
                             <i class="fa-solid fa-paper-plane"></i> Submit Claim
                         </button>

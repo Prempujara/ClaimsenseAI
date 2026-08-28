@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,7 +49,18 @@
             <h2>Welcome Back</h2>
             <p>Log in to access your ClaimSense portal</p>
 
-            <div id="loginError" class="alert alert-danger" style="display: none; padding: 12px; border-radius: 8px; background: #FEE2E2; color: #B91C1C; font-size: 13px; margin-bottom: 20px;"></div>
+            <c:set var="loginMsg" value="" />
+            <c:choose>
+                <c:when test="${param.error eq 'system'}"><c:set var="loginMsg" value="A system error occurred. Please try again shortly." /></c:when>
+                <c:when test="${not empty param.error}"><c:set var="loginMsg" value="Invalid email or password. Please try again." /></c:when>
+                <c:when test="${not empty param.timeout}"><c:set var="loginMsg" value="Please sign in to continue." /></c:when>
+            </c:choose>
+
+            <div id="loginError" class="alert alert-danger" style="${empty loginMsg ? 'display: none;' : ''} padding: 12px; border-radius: 8px; background: #FEE2E2; color: #B91C1C; font-size: 13px; margin-bottom: 20px;"><c:out value="${loginMsg}" /></div>
+
+            <c:if test="${not empty param.loggedout}">
+                <div class="alert" style="padding: 12px; border-radius: 8px; background: #DCFCE7; color: #166534; font-size: 13px; margin-bottom: 20px;">You have been signed out.</div>
+            </c:if>
 
             <form action="${pageContext.request.contextPath}/LoginServlet" method="POST" onsubmit="return handleLoginSubmit(event)">
 
@@ -79,8 +91,8 @@
             <div style="margin-top: 24px; text-align: center; font-size: 13px; color: var(--text-muted);">
                 Quick Demo Access:
                 <div style="margin-top: 8px; display: flex; gap: 8px; justify-content: center;">
-                    <a href="${pageContext.request.contextPath}/employee/dashboard.jsp" class="btn-outline-custom" style="padding: 4px 10px; font-size: 12px;">Employee Portal</a>
-                    <a href="${pageContext.request.contextPath}/manager/dashboard.jsp" class="btn-outline-custom" style="padding: 4px 10px; font-size: 12px;">Manager Portal</a>
+                    <button type="button" onclick="quickLogin('prem@claimsense.com')" class="btn-outline-custom" style="padding: 4px 10px; font-size: 12px;">Employee Portal</button>
+                    <button type="button" onclick="quickLogin('manager@claimsense.com')" class="btn-outline-custom" style="padding: 4px 10px; font-size: 12px;">Manager Portal</button>
                 </div>
             </div>
         </div>
@@ -89,6 +101,15 @@
 </div>
 
 <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
+<script>
+    // Demo shortcut: fill the documented demo credentials and submit through
+    // the real LoginServlet (no bypass of authentication).
+    function quickLogin(email) {
+        document.getElementById('loginEmail').value = email;
+        document.getElementById('loginPassword').value = '123456';
+        document.getElementById('loginSubmitBtn').closest('form').submit();
+    }
+</script>
 </body>
 
 </html>

@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,8 +11,8 @@
     <title>My Expenses - ClaimSense AI</title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/responsive.css">
+    <link rel="stylesheet" href="${ctx}/assets/css/style.css">
+    <link rel="stylesheet" href="${ctx}/assets/css/responsive.css">
 </head>
 
 <body>
@@ -31,22 +34,26 @@
                         View and track all submitted claims and approval statuses.
                     </p>
                 </div>
-                <a href="${pageContext.request.contextPath}/employee/submitExpense.jsp" class="btn-primary-custom">
+                <a href="${ctx}/SubmitExpenseServlet" class="btn-primary-custom">
                     <i class="fa-solid fa-plus"></i> Submit New Expense
                 </a>
             </div>
 
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger" style="padding: 12px; border-radius: 8px; background: #FEE2E2; color: #B91C1C; font-size: 13px; margin-bottom: 20px;">${fn:escapeXml(error)}</div>
+            </c:if>
+
             <div class="table-box">
                 <div class="box-header" style="flex-wrap: wrap; gap: 16px;">
-                    <div style="display: flex; gap: 8px;">
-                        <button class="btn-primary-custom" style="padding: 6px 14px; font-size: 13px;">All (25)</button>
-                        <button class="btn-outline-custom" style="padding: 6px 14px; font-size: 13px;">Pending (8)</button>
-                        <button class="btn-outline-custom" style="padding: 6px 14px; font-size: 13px;">Approved (14)</button>
-                        <button class="btn-outline-custom" style="padding: 6px 14px; font-size: 13px;">Rejected (3)</button>
+                    <div style="display: flex; gap: 8px;" id="filterChips">
+                        <button class="btn-primary-custom filter-chip" data-filter="ALL" style="padding: 6px 14px; font-size: 13px;">All (${stats.totalCount})</button>
+                        <button class="btn-outline-custom filter-chip" data-filter="PENDING" style="padding: 6px 14px; font-size: 13px;">Pending (${stats.pendingCount})</button>
+                        <button class="btn-outline-custom filter-chip" data-filter="APPROVED" style="padding: 6px 14px; font-size: 13px;">Approved (${stats.approvedCount})</button>
+                        <button class="btn-outline-custom filter-chip" data-filter="REJECTED" style="padding: 6px 14px; font-size: 13px;">Rejected (${stats.rejectedCount})</button>
                     </div>
 
                     <div style="position: relative; width: 240px;">
-                        <input type="text" class="input" placeholder="Search claims..." style="height: 38px; padding-left: 36px; font-size: 13px; margin: 0;">
+                        <input type="text" id="claimSearch" class="input" placeholder="Search claims..." style="height: 38px; padding-left: 36px; font-size: 13px; margin: 0;">
                         <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 12px; color: var(--text-muted); font-size: 13px;"></i>
                     </div>
                 </div>
@@ -64,64 +71,30 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>#EX-1092</strong></td>
-                                <td>Uber Ride to Client Office</td>
-                                <td>Travel</td>
-                                <td><strong>₹450.00</strong></td>
-                                <td>24 Aug 2026</td>
-                                <td><span class="badge-status approved"><i class="fa-solid fa-check"></i> APPROVED</span></td>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/employee/expenseDetails.jsp" class="btn-outline-custom" style="padding: 4px 10px; font-size: 12px;">View Details</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>#EX-1091</strong></td>
-                                <td>Starbucks Client Meeting</td>
-                                <td>Food</td>
-                                <td><strong>₹320.00</strong></td>
-                                <td>23 Aug 2026</td>
-                                <td><span class="badge-status pending"><i class="fa-solid fa-clock"></i> PENDING</span></td>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/employee/expenseDetails.jsp" class="btn-outline-custom" style="padding: 4px 10px; font-size: 12px;">View Details</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>#EX-1088</strong></td>
-                                <td>Amazon Office Supplies</td>
-                                <td>Office Supplies</td>
-                                <td><strong>₹1,250.00</strong></td>
-                                <td>20 Aug 2026</td>
-                                <td><span class="badge-status approved"><i class="fa-solid fa-check"></i> APPROVED</span></td>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/employee/expenseDetails.jsp" class="btn-outline-custom" style="padding: 4px 10px; font-size: 12px;">View Details</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>#EX-1084</strong></td>
-                                <td>Team Celebration Dinner</td>
-                                <td>Food</td>
-                                <td><strong>₹4,800.00</strong></td>
-                                <td>18 Aug 2026</td>
-                                <td><span class="badge-status rejected"><i class="fa-solid fa-xmark"></i> REJECTED</span></td>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/employee/expenseDetails.jsp" class="btn-outline-custom" style="padding: 4px 10px; font-size: 12px;">View Details</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>#EX-1079</strong></td>
-                                <td>Hotel Stay - Mumbai Conference</td>
-                                <td>Accommodation</td>
-                                <td><strong>₹8,500.00</strong></td>
-                                <td>12 Aug 2026</td>
-                                <td><span class="badge-status approved"><i class="fa-solid fa-check"></i> APPROVED</span></td>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/employee/expenseDetails.jsp" class="btn-outline-custom" style="padding: 4px 10px; font-size: 12px;">View Details</a>
-                                </td>
-                            </tr>
+                        <tbody id="claimsBody">
+                            <c:forEach var="e" items="${expenses}">
+                                <tr class="claim-row" data-status="${e.status}" data-text="${fn:toLowerCase(fn:escapeXml(e.title))} ${fn:toLowerCase(fn:escapeXml(e.categoryName))} ${e.claimCode}">
+                                    <td><strong>${e.claimCode}</strong></td>
+                                    <td>${fn:escapeXml(e.title)}</td>
+                                    <td>${fn:escapeXml(e.categoryName)}</td>
+                                    <td><strong>₹${e.amountDisplay}</strong></td>
+                                    <td>${e.expenseDateDisplay}</td>
+                                    <td>
+                                        <jsp:include page="../components/_statusBadge.jsp">
+                                            <jsp:param name="status" value="${e.status}" />
+                                        </jsp:include>
+                                    </td>
+                                    <td>
+                                        <a href="${ctx}/expense-details?id=${e.expenseId}" class="btn-outline-custom" style="padding: 4px 10px; font-size: 12px;">View Details</a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            <c:if test="${empty expenses}">
+                                <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">You haven’t submitted any expense claims yet.</td></tr>
+                            </c:if>
                         </tbody>
                     </table>
+                    <div id="noMatch" style="display: none; text-align: center; color: var(--text-muted); padding: 24px;">No claims match your filter.</div>
                 </div>
 
             </div>
@@ -134,7 +107,38 @@
 
 </div>
 
-<script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
+<script src="${ctx}/assets/js/script.js"></script>
+<script>
+    // Client-side filter + search over the already-rendered claim rows.
+    (function () {
+        const rows = Array.from(document.querySelectorAll('.claim-row'));
+        const chips = Array.from(document.querySelectorAll('.filter-chip'));
+        const search = document.getElementById('claimSearch');
+        const noMatch = document.getElementById('noMatch');
+        let activeFilter = 'ALL';
+
+        function apply() {
+            const q = (search.value || '').trim().toLowerCase();
+            let visible = 0;
+            rows.forEach(r => {
+                const statusOk = activeFilter === 'ALL' || r.dataset.status === activeFilter;
+                const textOk = !q || (r.dataset.text || '').indexOf(q) !== -1;
+                const show = statusOk && textOk;
+                r.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+            if (noMatch) noMatch.style.display = (rows.length && visible === 0) ? 'block' : 'none';
+        }
+
+        chips.forEach(chip => chip.addEventListener('click', () => {
+            activeFilter = chip.dataset.filter;
+            chips.forEach(c => { c.classList.remove('btn-primary-custom'); c.classList.add('btn-outline-custom'); });
+            chip.classList.remove('btn-outline-custom'); chip.classList.add('btn-primary-custom');
+            apply();
+        }));
+        if (search) search.addEventListener('input', apply);
+    })();
+</script>
 </body>
 
 </html>
