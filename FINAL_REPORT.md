@@ -69,9 +69,20 @@ The Java side calls the Python service over HTTP; the Python side owns OCR + ML 
 | Employee | `prem@claimsense.com` | `123456` |
 | Manager | `manager@claimsense.com` | `123456` |
 
-Passwords appear **nowhere else** — not in JSP, not in client-side JS, not committed as
-secrets. DB credentials live in `config.properties` (server-side only), never exposed to
-the browser.
+**Demo employee accounts** (added via `database/demo_users.sql`; all share one password):
+
+| Role | Name | Email | Password |
+|------|------|-------|----------|
+| Employee | Prem Pujara | `prempujara@claimsense.com` | `Claim@123` |
+| Employee | Yashvi Shah | `yashvi@claimsense.com` | `Claim@123` |
+| Employee | Mannan Shah | `mannan@claimsense.com` | `Claim@123` |
+| Employee | Deev Savani | `deev@claimsense.com` | `Claim@123` |
+| Employee | Jay Rathod | `jay@claimsense.com` | `Claim@123` |
+
+Passwords are stored only as **SHA-256 hashes** (via `PasswordUtil`); the plaintext above
+appears **nowhere else** — not in the SQL seed, not in JSP, not in client-side JS, not
+committed as secrets. DB credentials live in `config.properties` (server-side only), never
+exposed to the browser.
 
 ## 6. Prerequisites & install commands
 
