@@ -53,6 +53,12 @@ public class AIService {
     /** Runs OCR on receipt bytes via the Python service. */
     public OcrResult runOcr(byte[] fileBytes, String fileName) {
         OcrResult r = new OcrResult();
+        if (fileBytes == null || fileBytes.length == 0) {
+            r.available = true;
+            r.success = false;
+            r.message = "No receipt uploaded";
+            return r;
+        }
         try {
             Map<String, Object> body = new LinkedHashMap<>();
             body.put("filename", fileName);

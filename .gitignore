@@ -1,0 +1,16 @@
+# Build outputs
+build/
+*.class
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Temporary files
+*.txt
+scratch/
+
+# IDE & OS
+.DS_Store
+Thumbs.db

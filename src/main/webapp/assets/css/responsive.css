@@ -34,6 +34,32 @@
     }
 }
 
+@media (max-width: 768px) {
+    .step-progress {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .step-connector {
+        width: 2px;
+        height: 16px;
+        margin: 4px 0 4px 15px;
+    }
+
+    .employee-cta-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .employee-cta-banner .btn-primary-custom {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 @media (max-width: 576px) {
     .cards-grid {
         grid-template-columns: 1fr;
@@ -59,5 +85,9 @@
     .table-responsive {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+    }
+
+    div[style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
     }
 }

@@ -935,3 +935,459 @@ textarea.form-control {
     color: #818CF8;
     font-size: 11px;
 }
+
+/* ==========================================================================
+   ENTERPRISE MANAGER DASHBOARD UTILITIES
+   ========================================================================== */
+
+.badge-anomaly {
+    background: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FDE68A;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+[data-theme="dark"] .badge-anomaly {
+    background: rgba(180, 83, 9, 0.25);
+    color: #FBBF24;
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.badge-low-risk {
+    background: #ECFDF5;
+    color: #047857;
+    border: 1px solid #A7F3D0;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+[data-theme="dark"] .badge-low-risk {
+    background: rgba(6, 78, 59, 0.35);
+    color: #34D399;
+    border-color: rgba(52, 211, 153, 0.3);
+}
+
+.badge-pending-scan {
+    background: #F3F4F6;
+    color: #4B5563;
+    border: 1px solid #E5E7EB;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+[data-theme="dark"] .badge-pending-scan {
+    background: #1E293B;
+    color: #94A3B8;
+    border-color: #334155;
+}
+
+.priority-rank-badge {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.priority-rank-1 {
+    background: rgba(245, 158, 11, 0.15);
+    color: #D97706;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+[data-theme="dark"] .priority-rank-1 {
+    background: rgba(245, 158, 11, 0.25);
+    color: #FBBF24;
+}
+
+.priority-rank-2 {
+    background: rgba(79, 70, 229, 0.12);
+    color: #4F46E5;
+    border: 1px solid rgba(79, 70, 229, 0.25);
+}
+
+[data-theme="dark"] .priority-rank-2 {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818CF8;
+}
+
+.priority-rank-3 {
+    background: var(--table-header-bg);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+}
+
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: var(--card-bg);
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.filter-input {
+    flex: 1;
+    min-width: 220px;
+    position: relative;
+}
+
+.filter-input i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.filter-input input {
+    width: 100%;
+    padding: 8px 12px 8px 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-main);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.filter-input input:focus {
+    border-color: var(--primary);
+}
+
+.filter-select {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-main);
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+}
+
+.filter-select:focus {
+    border-color: var(--primary);
+}
+
+.cat-progress-track {
+    width: 100%;
+    height: 8px;
+    background: var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.cat-progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+
+.quick-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.quick-action-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.timeline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.timeline-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.timeline-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.timeline-icon-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.timeline-icon-dot.submit {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.timeline-icon-dot.approve {
+    background: var(--success-bg);
+    color: var(--success-text);
+}
+
+.timeline-icon-dot.reject {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+}
+
+/* ==========================================================================
+   EMPLOYEE UI ENHANCEMENT STYLES & COMPONENTS
+   ========================================================================== */
+
+/* Pulsing dot for pending review status */
+.status-dot-pulse {
+    display: inline-block;
+    color: var(--pending-dot);
+    animation: pulse-dot 1.8s infinite ease-in-out;
+    margin-right: 4px;
+    font-size: 11px;
+}
+
+@keyframes pulse-dot {
+    0% { opacity: 0.4; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.15); }
+    100% { opacity: 0.4; transform: scale(0.9); }
+}
+
+/* Employee Hero Metric Card */
+.card-stat.hero-stat {
+    background: linear-gradient(135deg, var(--card-bg) 0%, var(--primary-light) 120%);
+    border-left: 4px solid var(--primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-stat.hero-stat::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Step Progress Flow Bar */
+.step-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 16px 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--table-header-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.step-item.active .step-number {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 0 12px var(--primary-glow);
+}
+
+.step-item.completed .step-number {
+    background: var(--success-bg);
+    color: var(--success-text);
+    border-color: var(--success-border);
+}
+
+.step-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.step-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.step-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.step-connector {
+    flex: 1;
+    height: 2px;
+    background: var(--border-color);
+    margin: 0 16px;
+    border-radius: 2px;
+}
+
+.step-connector.active {
+    background: var(--primary);
+}
+
+/* Marketing / Product CTA Banner */
+.employee-cta-banner {
+    background: linear-gradient(135deg, var(--card-bg) 0%, var(--ai-purple-light) 100%);
+    border: 1px solid var(--ai-purple-border);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.employee-cta-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.cta-content {
+    max-width: 580px;
+}
+
+.cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(109, 40, 217, 0.12);
+    color: var(--ai-purple);
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    border: 1px solid var(--ai-purple-border);
+}
+
+.cta-content h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+}
+
+.cta-content p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* OCR Analyzing Overlay */
+.ocr-analyzing-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(6px);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.ocr-spinner {
+    width: 56px;
+    height: 56px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: ocr-spin 0.9s infinite linear;
+    margin-bottom: 20px;
+}
+
+@keyframes ocr-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Category Progress Bar Container */
+.category-progress-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s ease;
+}
+
+.category-progress-card:hover {
+    border-color: var(--primary-ring);
+}

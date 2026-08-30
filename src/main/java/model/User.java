@@ -10,6 +10,10 @@ public class User {
     private String email;
     private String password;      // SHA-256 hash (never plaintext)
     private String role;          // EMPLOYEE | MANAGER
+    private String phone;
+    private String department;
+    private String jobTitle;
+    private String avatarPath;
     private LocalDateTime createdAt;
 
     public User() { }
@@ -35,6 +39,22 @@ public class User {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
+
+    public String getJobTitle() { return jobTitle; }
+    public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
+
+    public String getAvatarPath() { return avatarPath; }
+    public void setAvatarPath(String avatarPath) { this.avatarPath = avatarPath; }
+
+    public boolean hasAvatar() {
+        return avatarPath != null && !avatarPath.isBlank();
+    }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

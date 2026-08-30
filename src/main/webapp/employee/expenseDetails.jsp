@@ -55,11 +55,9 @@
                     <h2 style="font-size: 24px; font-weight: 800; margin: 0; letter-spacing: -0.4px;">${fn:escapeXml(expense.title)}</h2>
                 </div>
                 <div>
-                    <c:choose>
-                        <c:when test="${expense.status eq 'APPROVED'}"><span class="badge-status approved" style="font-size: 13px; padding: 8px 16px;"><i class="fa-solid fa-check"></i> APPROVED</span></c:when>
-                        <c:when test="${expense.status eq 'REJECTED'}"><span class="badge-status rejected" style="font-size: 13px; padding: 8px 16px;"><i class="fa-solid fa-xmark"></i> REJECTED</span></c:when>
-                        <c:otherwise><span class="badge-status pending" style="font-size: 13px; padding: 8px 16px;"><i class="fa-solid fa-clock"></i> PENDING APPROVAL</span></c:otherwise>
-                    </c:choose>
+                    <jsp:include page="../components/_statusBadge.jsp">
+                        <jsp:param name="status" value="${expense.status}" />
+                    </jsp:include>
                 </div>
             </div>
 
