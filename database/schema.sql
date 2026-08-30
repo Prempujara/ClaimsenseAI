@@ -24,12 +24,22 @@ DROP TABLE IF EXISTS users;
 -- ------------------------------------------------------------
 -- USERS
 -- ------------------------------------------------------------
+--   Profile fields (phone / department / job_title / avatar_path) are optional
+--   and NULLable, so they are purely additive: authentication still uses only
+--   email + password, and `email` remains the immutable login identity.
+--   `avatar_path` stores ONLY the generated file name of the uploaded photo
+--   (e.g. "avatar_5_a1b2c3d4.png") - the image bytes live on disk under
+--   ${user.home}/.claimsense/avatars, never in the database.
 CREATE TABLE users (
     user_id      INT           NOT NULL AUTO_INCREMENT,
     name         VARCHAR(100)  NOT NULL,
     email        VARCHAR(150)  NOT NULL,
     password     VARCHAR(64)   NOT NULL,           -- SHA-256 hex digest
     role         ENUM('EMPLOYEE','MANAGER') NOT NULL DEFAULT 'EMPLOYEE',
+    phone        VARCHAR(50)   NULL,
+    department   VARCHAR(100)  NULL,
+    job_title    VARCHAR(100)  NULL,
+    avatar_path  VARCHAR(255)  NULL,
     created_at   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id),
     UNIQUE KEY uq_users_email (email)

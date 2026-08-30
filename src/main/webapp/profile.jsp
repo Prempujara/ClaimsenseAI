@@ -68,7 +68,7 @@
                     <div style="position: relative; width: 108px; height: 108px; margin: 0 auto 16px;">
                         <c:choose>
                             <c:when test="${user.hasAvatar()}">
-                                <img id="avatarPreviewImg" src="${user.avatarPath}" alt="${fn:escapeXml(user.name)}" style="width: 108px; height: 108px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-light); box-shadow: var(--shadow-sm);">
+                                <img id="avatarPreviewImg" src="${ctx}/avatar?id=${user.userId}" alt="${fn:escapeXml(user.name)}" style="width: 108px; height: 108px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-light); box-shadow: var(--shadow-sm);">
                             </c:when>
                             <c:otherwise>
                                 <div id="avatarInitialsDiv" class="user-avatar" style="width: 108px; height: 108px; border-radius: 50%; font-size: 38px; font-weight: 800; display: flex; align-items: center; justify-content: center; background: var(--primary-light); color: var(--primary); border: 3px solid var(--primary-ring);">
@@ -115,8 +115,8 @@
                                     <label for="avatarFileInput" class="btn-outline-custom" style="padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; margin: 0;">
                                         <i class="fa-solid fa-camera" style="margin-right: 6px;"></i> Change Photo
                                     </label>
-                                    <input type="file" id="avatarFileInput" name="avatarFile" accept="image/jpeg,image/png,image/webp,image/gif" style="display: none;" onchange="previewAvatarImage(this)">
-                                    <span id="fileNameSpan" style="font-size: 12px; color: var(--text-muted);">PNG, JPG, WEBP or GIF (Max 10MB)</span>
+                                    <input type="file" id="avatarFileInput" name="avatarFile" accept="image/jpeg,image/png,image/webp" style="display: none;" onchange="previewAvatarImage(this)">
+                                    <span id="fileNameSpan" style="font-size: 12px; color: var(--text-muted);">JPG, JPEG, PNG or WEBP (Max 5MB)</span>
                                 </div>
                             </div>
 

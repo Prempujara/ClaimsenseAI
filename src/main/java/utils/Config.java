@@ -74,4 +74,21 @@ public final class Config {
         }
         return dir;
     }
+
+    /**
+     * Dedicated directory for profile photos, kept separate from receipts.
+     * Defaults to {@code <user.home>/.claimsense/avatars}. Created if missing.
+     */
+    public static Path avatarDir() {
+        String configured = get("avatar.dir", "");
+        Path dir = configured.isBlank()
+                ? Paths.get(System.getProperty("user.home"), ".claimsense", "avatars")
+                : Paths.get(configured);
+        try {
+            Files.createDirectories(dir);
+        } catch (Exception e) {
+            LOG.warning("Could not create avatar dir " + dir + ": " + e.getMessage());
+        }
+        return dir;
+    }
 }

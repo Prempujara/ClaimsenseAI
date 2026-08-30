@@ -26,6 +26,12 @@ public class ManagerEmployeeInsightsServlet extends HttpServlet {
 
     private final ExpenseService expenseService = new ExpenseService();
 
+    /**
+     * Per-employee roll-up rendered by {@code manager/employeeInsights.jsp}.
+     *
+     * <p>The getters are required: JSP EL reads bean properties, not public
+     * fields, so {@code ${m.name}} needs {@link #getName()}.</p>
+     */
     public static class EmployeeMetric {
         public String name;
         public int totalClaims;
@@ -33,6 +39,13 @@ public class ManagerEmployeeInsightsServlet extends HttpServlet {
         public int pendingCount;
         public int approvedCount;
         public int rejectedCount;
+
+        public String getName()          { return name; }
+        public int getTotalClaims()      { return totalClaims; }
+        public BigDecimal getTotalAmount() { return totalAmount; }
+        public int getPendingCount()     { return pendingCount; }
+        public int getApprovedCount()    { return approvedCount; }
+        public int getRejectedCount()    { return rejectedCount; }
     }
 
     @Override

@@ -28,7 +28,7 @@
         <a href="${pageContext.request.contextPath}/profile" class="user-badge" style="text-decoration: none; cursor: pointer;">
             <c:choose>
                 <c:when test="${not empty user and user.hasAvatar()}">
-                    <img src="${user.avatarPath}" alt="${fn:escapeXml(user.name)}" class="user-avatar" style="object-fit: cover; border-radius: 50%; width: 34px; height: 34px;">
+                    <img src="${pageContext.request.contextPath}/avatar?id=${user.userId}" alt="${fn:escapeXml(user.name)}" class="user-avatar" style="object-fit: cover; border-radius: 50%; width: 34px; height: 34px;">
                 </c:when>
                 <c:otherwise>
                     <div class="user-avatar">

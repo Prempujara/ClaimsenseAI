@@ -79,6 +79,18 @@ The Java side calls the Python service over HTTP; the Python side owns OCR + ML 
 | Employee | Deev Savani | `deev@claimsense.com` | `Claim@123` |
 | Employee | Jay Rathod | `jay@claimsense.com` | `Claim@123` |
 
+**Demo employees with seeded expense history** (added via `database/demo_expenses.sql`;
+each has 17–18 approved historical claims so the Isolation Forest has enough per-user
+history to return a real verdict instead of `INSUFFICIENT DATA`):
+
+| Role | Name | Email | Password |
+|------|------|-------|----------|
+| Employee | Aarav Mehta | `aarav@claimsense.com` | `Claim@123` |
+| Employee | Riya Sharma | `riya@claimsense.com` | `Claim@123` |
+| Employee | Arjun Nair | `arjun@claimsense.com` | `Claim@123` |
+| Employee | Ananya Iyer | `ananya@claimsense.com` | `Claim@123` |
+| Employee | Kabir Malhotra | `kabir@claimsense.com` | `Claim@123` |
+
 Passwords are stored only as **SHA-256 hashes** (via `PasswordUtil`); the plaintext above
 appears **nowhere else** — not in the SQL seed, not in JSP, not in client-side JS, not
 committed as secrets. DB credentials live in `config.properties` (server-side only), never

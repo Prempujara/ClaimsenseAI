@@ -1,28 +1,36 @@
 package controller;
 
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.User;
+import service.AvatarService;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.logging.Logger;
 
 /**
- * Serves profile avatar images stored on disk.
- * GET /avatar?id={userId}
+ * Serves profile photos that live on disk (never in the database).
+ *
+ * <p>{@code GET /avatar?id={userId}} - the file name is looked up from
+ * {@code users.avatar_path} for that id, so the browser never supplies a path
+ * and cannot address anything outside the avatar directory. Reachable only with
+ * an authenticated session ({@code AuthenticationFilter} guards {@code /avatar}
+ * because it is not in the public path list).</p>
  */
 @WebServlet("/avatar")
 public class AvatarServlet extends HttpServlet {
 
-    private static final String UPLOAD_DIR = System.getProperty("user.home")
-            + File.separator + ".claimsense" + File.separator + "avatars";
+    private static final Logger LOG = Logger.getLogger(AvatarServlet.class.getName());
+
+    private final UserDAO userDAO = new UserDAO();
+    private final AvatarService avatarService = new AvatarService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -42,37 +50,48 @@ public class AvatarServlet extends HttpServlet {
             return;
         }
 
-        File folder = new File(UPLOAD_DIR);
-        if (!folder.exists()) {
+        String fileName;
+        try {
+            User owner = userDAO.findById(userId);
+            fileName = (owner != null) ? owner.getAvatarPath() : null;
+        } catch (Exception e) {
+            LOG.warning("Avatar lookup failed for user " + userId + ": " + e.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
+
+        if (fileName == null || fileName.isBlank()) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
-        File avatarFile = null;
-        String[] exts = {".png", ".jpg", ".jpeg", ".webp", ".gif"};
-        for (String ext : exts) {
-            File f = new File(folder, "avatar_" + userId + ext);
-            if (f.exists() && f.isFile()) {
-                avatarFile = f;
-                break;
-            }
-        }
-
-        if (avatarFile == null || !avatarFile.exists()) {
+        Path file = avatarService.resolveExisting(fileName);
+        if (file == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
-        String contentType = getServletContext().getMimeType(avatarFile.getName());
-        if (contentType == null) contentType = "image/png";
+        String contentType = contentTypeFor(file.getFileName().toString());
 
         resp.setContentType(contentType);
-        resp.setContentLengthLong(avatarFile.length());
+        resp.setContentLengthLong(Files.size(file));
+        // Photos are replaced in place under a new name; never serve a stale one.
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
-        try (FileInputStream in = new FileInputStream(avatarFile);
-             OutputStream out = resp.getOutputStream()) {
-            in.transferTo(out);
+        try (OutputStream out = resp.getOutputStream()) {
+            Files.copy(file, out);
         }
+    }
+
+    /**
+     * Map the stored extension to an image type. Done explicitly rather than via
+     * the container MIME table so WEBP is always served correctly.
+     */
+    private String contentTypeFor(String fileName) {
+        String lower = fileName.toLowerCase();
+        if (lower.endsWith(".png"))  return "image/png";
+        if (lower.endsWith(".webp")) return "image/webp";
+        if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) return "image/jpeg";
+        return "application/octet-stream";
     }
 }

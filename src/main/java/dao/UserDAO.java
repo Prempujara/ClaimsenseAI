@@ -16,13 +16,21 @@ public class UserDAO {
     private static final Logger LOG = Logger.getLogger(UserDAO.class.getName());
     private static boolean columnsChecked = false;
 
+    /**
+     * Safety net for databases created before the Profile page existed.
+     *
+     * <p>The columns are declared in {@code database/schema.sql} and can be added
+     * to an existing database with {@code database/migration_profile_fields.sql};
+     * this only keeps the profile page working if neither has been run. Each
+     * statement is optional - an "already exists" failure is the expected case.</p>
+     */
     private synchronized void ensureProfileColumns(Connection con) {
         if (columnsChecked) return;
         try (Statement st = con.createStatement()) {
             try { st.execute("ALTER TABLE users ADD COLUMN phone VARCHAR(50)"); } catch (Exception ignored) {}
             try { st.execute("ALTER TABLE users ADD COLUMN department VARCHAR(100)"); } catch (Exception ignored) {}
             try { st.execute("ALTER TABLE users ADD COLUMN job_title VARCHAR(100)"); } catch (Exception ignored) {}
-            try { st.execute("ALTER TABLE users ADD COLUMN avatar_path VARCHAR(500)"); } catch (Exception ignored) {}
+            try { st.execute("ALTER TABLE users ADD COLUMN avatar_path VARCHAR(255)"); } catch (Exception ignored) {}
             columnsChecked = true;
         } catch (Exception e) {
             LOG.warning("Could not execute user table column alterations: " + e.getMessage());
