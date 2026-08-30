@@ -48,6 +48,8 @@
 
                 <form action="${ctx}/SubmitExpenseServlet" method="POST" enctype="multipart/form-data" id="expenseSubmitForm" onsubmit="return handleExpenseFormSubmit(event)">
 
+                    <div id="aiAutofillBanner" style="display: none; padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 20px; transition: all 0.3s ease;"></div>
+
                     <!-- 1. CLAIM DETAILS -->
                     <div style="margin-bottom: 16px; font-size: 13px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
                         <i class="fa-solid fa-file-lines" style="color: var(--primary);"></i> 1. Expense Details
@@ -138,7 +140,7 @@
     </p>
 </div>
 
-<script src="${ctx}/assets/js/script.js"></script>
+<script src="${ctx}/assets/js/script.js?v=<%=System.currentTimeMillis()%>"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const dateInput = document.getElementById("expenseDate");

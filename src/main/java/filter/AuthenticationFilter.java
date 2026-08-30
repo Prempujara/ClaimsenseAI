@@ -58,7 +58,7 @@ public class AuthenticationFilter implements Filter {
         }
 
         // ---- role-based authorization ----
-        boolean employeeArea = path.startsWith("/employee/") || path.equals("/SubmitExpenseServlet");
+        boolean employeeArea = path.startsWith("/employee/") || path.equals("/SubmitExpenseServlet") || path.equals("/AnalyzeReceiptServlet");
         boolean managerArea  = path.startsWith("/manager/")  || path.equals("/ApproveRejectServlet");
 
         if (employeeArea && !user.isEmployee()) {

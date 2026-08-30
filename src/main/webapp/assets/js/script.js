@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (fileNameDisplay) {
             fileNameDisplay.innerHTML = `<i class="fa-solid fa-file-circle-check text-success"></i> <strong>Selected:</strong> ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
         }
+        triggerReceiptAnalysis(file);
         return true;
     }
 
@@ -175,4 +176,91 @@ function handleLoginSubmit(event) {
     }
 
     return true;
+}
+
+
+// AI-Powered Receipt Autofill Handler
+function triggerReceiptAnalysis(file) {
+    const banner = document.getElementById('aiAutofillBanner');
+    const merchantInput = document.getElementById('expenseTitle');
+    const amountInput = document.getElementById('expenseAmount');
+    const dateInput = document.getElementById('expenseDate');
+    const categorySelect = document.getElementById('expenseCategory');
+
+    if (banner) {
+        banner.style.display = 'block';
+        banner.className = 'alert alert-info';
+        banner.style.background = 'rgba(59, 130, 246, 0.1)';
+        banner.style.border = '1px solid rgba(59, 130, 246, 0.2)';
+        banner.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles fa-spin" style="color: var(--primary); margin-right: 6px;"></i> <strong>Analyzing receipt with AI...</strong> Extracting details and predicting expense category.`;
+    }
+
+    const formData = new FormData();
+    formData.append('receipt', file);
+
+    const ctx = (window.location.pathname.startsWith('/claimsense') ? '/claimsense' : '');
+
+    fetch(ctx + '/AnalyzeReceiptServlet', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data || !data.success) {
+            if (banner) {
+                banner.className = 'alert alert-warning';
+                banner.style.background = 'rgba(245, 158, 11, 0.1)';
+                banner.style.border = '1px solid rgba(245, 158, 11, 0.2)';
+                banner.innerHTML = `<i class="fa-solid fa-circle-info" style="color: #F59E0B; margin-right: 6px;"></i> ${data.message || 'AI autofill unavailable — please enter details manually.'}`;
+            }
+            return;
+        }
+
+        // Apply extracted merchant
+        if (data.merchant && merchantInput) {
+            merchantInput.value = data.merchant;
+        }
+
+        // Apply extracted amount
+        if (data.amount && amountInput) {
+            amountInput.value = parseFloat(data.amount).toFixed(2);
+        }
+
+        // Apply extracted date
+        if (data.date && dateInput) {
+            dateInput.value = data.date;
+        }
+
+        // Apply predicted categoryId
+        if (data.categoryId && categorySelect) {
+            categorySelect.value = data.categoryId;
+        }
+
+        const confidencePct = Math.round((data.confidence || 0.85) * 100);
+
+        if (banner) {
+            banner.className = 'alert alert-success';
+            banner.style.background = 'rgba(16, 185, 129, 0.1)';
+            banner.style.border = '1px solid rgba(16, 185, 129, 0.2)';
+            banner.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                    <div>
+                        <i class="fa-solid fa-wand-magic-sparkles" style="color: #10B981; margin-right: 6px;"></i>
+                        <strong>AI Autofill Applied:</strong> Extracted merchant, date, amount & suggested category <strong>"${data.category || ''}"</strong>
+                        <span style="background: #10B981; color: #FFFFFF; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: 6px; font-weight: 700;">${confidencePct}% confidence</span>
+                    </div>
+                    <span style="font-size: 11px; color: var(--text-muted);">(All fields remain editable)</span>
+                </div>
+            `;
+        }
+    })
+    .catch(err => {
+        console.warn('AI Receipt Autofill error:', err);
+        if (banner) {
+            banner.className = 'alert alert-warning';
+            banner.style.background = 'rgba(245, 158, 11, 0.1)';
+            banner.style.border = '1px solid rgba(245, 158, 11, 0.2)';
+            banner.innerHTML = `<i class="fa-solid fa-circle-info" style="color: #F59E0B; margin-right: 6px;"></i> AI receipt autofill unavailable — please enter expense details manually.`;
+        }
+    });
 }

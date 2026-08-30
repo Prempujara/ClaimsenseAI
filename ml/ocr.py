@@ -23,14 +23,14 @@ import re
 import pytesseract
 from PIL import Image
 
-# On Windows the tesseract binary is not on PATH by default. Point at the
-# standard install location, but allow override via the TESSERACT_CMD env var.
-_DEFAULT_WIN_TESSERACT = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-_cmd = os.environ.get("TESSERACT_CMD")
-if _cmd:
-    pytesseract.pytesseract.tesseract_cmd = _cmd
-elif os.path.exists(_DEFAULT_WIN_TESSERACT):
-    pytesseract.pytesseract.tesseract_cmd = _DEFAULT_WIN_TESSERACT
+# Configure Tesseract binary path
+TESSERACT_EXE = r"C:\Users\Mannan\Tesseract-OCR\tesseract.exe"
+if os.path.exists(TESSERACT_EXE):
+    pytesseract.pytesseract.tesseract_cmd = TESSERACT_EXE
+    tess_dir = os.path.dirname(TESSERACT_EXE)
+    if tess_dir not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = tess_dir + os.path.pathsep + os.environ.get("PATH", "")
+    os.environ["TESSDATA_PREFIX"] = os.path.join(tess_dir, "tessdata")
 
 
 # ------- amount / date extraction regexes -------
@@ -80,7 +80,17 @@ def _extract_amount(text):
 
 def _extract_date(text):
     m = _DATE.search(text)
-    return m.group(1).strip() if m else None
+    if not m:
+        return None
+    raw = m.group(1).strip()
+    from datetime import datetime
+    for fmt in ("%d/%m/%Y", "%d-%m-%Y", "%Y-%m-%d", "%Y/%m/%d", "%d %b %Y", "%d %B %Y", "%b %d, %Y", "%B %d, %Y", "%b %d %Y"):
+        try:
+            dt = datetime.strptime(raw, fmt)
+            return dt.strftime("%Y-%m-%d")
+        except ValueError:
+            pass
+    return raw
 
 
 def _extract_merchant(text):
