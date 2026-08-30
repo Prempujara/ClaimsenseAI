@@ -4,6 +4,25 @@ This guide provides step-by-step instructions for setting up, configuring, runni
 
 ---
 
+
+## Quick Development Launchers (Automated)
+
+ClaimSense AI includes automated PowerShell scripts in the scripts/ directory:
+
+- **Environment Setup Check:**
+  `powershell
+  .\scripts\setup.ps1
+  `
+- **Start All Local Services:**
+  `powershell
+  .\scripts\start-claimsense.ps1
+  `
+- **Stop ClaimSense Services:**
+  `powershell
+  .\scripts\stop-claimsense.ps1
+  `
+
+---
 ## Technical Stack & Architecture
 
 ClaimSense AI uses a Model-2 MVC architecture combining a Java Jakarta Servlet backend on Apache Tomcat 10.1 with a Python Flask AI microservice.
