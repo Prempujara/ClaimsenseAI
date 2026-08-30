@@ -1,0 +1,131 @@
+{
+  "dataset_total": 761,
+  "train_samples": 608,
+  "test_samples": 153,
+  "categories_count": 7,
+  "metrics": {
+    "accuracy": 0.9869,
+    "macro_precision": 0.9876,
+    "macro_recall": 0.9873,
+    "macro_f1": 0.9873,
+    "weighted_f1": 0.9869
+  },
+  "per_class": {
+    "Accommodation": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 20
+    },
+    "Entertainment": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 22
+    },
+    "Food": {
+      "precision": 1.0,
+      "recall": 0.9565,
+      "f1_score": 0.9778,
+      "support": 23
+    },
+    "Medical": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 22
+    },
+    "Office Supplies": {
+      "precision": 0.9583,
+      "recall": 1.0,
+      "f1_score": 0.9787,
+      "support": 23
+    },
+    "Other": {
+      "precision": 0.9545,
+      "recall": 0.9545,
+      "f1_score": 0.9545,
+      "support": 22
+    },
+    "Travel": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 21
+    }
+  },
+  "confusion_matrix": [
+    [
+      20,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      22,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      22,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      22,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      23,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      1,
+      21,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      21
+    ]
+  ],
+  "labels": [
+    "Accommodation",
+    "Entertainment",
+    "Food",
+    "Medical",
+    "Office Supplies",
+    "Other",
+    "Travel"
+  ]
+}
